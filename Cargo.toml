@@ -22,18 +22,18 @@ assert_matches = "1.5.0"
 async-trait = "0.1.89"
 blake2 = "0.10.6"
 bstr = "1.12.1"
-clap = { version = "4.5.51", features = [
+clap = { git = "https://github.com/jerusdp/clap.git", branch = "jerusdp/command-help-headings", features = [
     "derive",
     "deprecated",
     "wrap_help",
     "string",
 ] }
-clap_complete = { version = "4.5.60", features = ["unstable-dynamic"] }
-clap_complete_nushell = "4.5.10"
+clap_complete = { git = "https://github.com/jerusdp/clap.git", branch = "jerusdp/command-help-headings", features = ["unstable-dynamic"] }
+clap_complete_nushell = { git = "https://github.com/jerusdp/clap.git", branch = "jerusdp/command-help-headings" }
 # Update clap-markdown manually since test_generate_md_cli_help snapshot
 # will need regenerating.
 clap-markdown = "=0.1.5"
-clap_mangen = "0.2.25"
+clap_mangen = { git = "https://github.com/jerusdp/clap.git", branch = "jerusdp/command-help-headings" }
 chrono = { version = "0.4.42", default-features = false, features = [
     "std",
     "clock",
@@ -158,3 +158,9 @@ rand_chacha.opt-level = 3
 [profile.release]
 strip = "debuginfo"
 codegen-units = 1
+
+[patch.crates-io]
+clap = { git = "https://github.com/jerusdp/clap.git", branch = "jerusdp/command-help-headings" }
+clap_builder = { git = "https://github.com/jerusdp/clap.git", branch = "jerusdp/command-help-headings" }
+clap_derive = { git = "https://github.com/jerusdp/clap.git", branch = "jerusdp/command-help-headings" }
+clap_lex = { git = "https://github.com/jerusdp/clap.git", branch = "jerusdp/command-help-headings" }

@@ -85,6 +85,33 @@ const STYLES: Styles = Styles::styled()
     .literal(AnsiColor::Green.on_default().bold())
     .placeholder(AnsiColor::Green.on_default());
 
+#[allow(dead_code)]
+const HELP_HEADING_COMMON_COMMANDS: &str = "Common Commands";
+#[allow(dead_code)]
+const HELP_HEADING_EDITING_CHANGES: &str = "Editing Changes";
+#[allow(dead_code)]
+const HELP_HEADING_REWRITING_CHANGES: &str = "Rewriting Changes";
+#[allow(dead_code)]
+const HELP_HEADING_WORKING_COPY: &str = "Working Copy";
+#[allow(dead_code)]
+const HELP_HEADING_FILE_OPERATIONS: &str = "File Operations";
+#[allow(dead_code)]
+const HELP_HEADING_REVIEW_COMMANDS: &str = "Review Commands";
+#[allow(dead_code)]
+const HELP_HEADING_REFERENCES: &str = "References (Bookmarks & Tags)";
+#[allow(dead_code)]
+const HELP_HEADING_OPERATION_LOG: &str = "Operation Log";
+#[allow(dead_code)]
+const HELP_HEADING_WORKSPACE: &str = "Workspace";
+#[allow(dead_code)]
+const HELP_HEADING_ADVANCED: &str = "Advanced";
+#[allow(dead_code)]
+const HELP_HEADING_CONFIGURATION_HELP: &str = "Configuration & Help";
+#[allow(dead_code)]
+const HELP_HEADING_GIT_INTEGRATION: &str = "Git Integration";
+#[allow(dead_code)]
+const HELP_HEADING_DEVELOPMENT: &str = "Development";
+
 #[derive(clap::Parser, Clone, Debug)]
 #[command(styles = STYLES)]
 #[command(disable_help_subcommand = true)]
@@ -161,7 +188,77 @@ enum Command {
 }
 
 pub fn default_app() -> clap::Command {
-    Command::augment_subcommands(Args::command())
+    let mut app = Command::augment_subcommands(Args::command())
+        // Common/Basic commands - most frequently used
+        .mut_subcommand("log", |cmd| cmd.help_heading(HELP_HEADING_COMMON_COMMANDS))
+        .mut_subcommand("show", |cmd| cmd.help_heading(HELP_HEADING_COMMON_COMMANDS))
+        .mut_subcommand("status", |cmd| cmd.help_heading(HELP_HEADING_COMMON_COMMANDS))
+        .mut_subcommand("diff", |cmd| cmd.help_heading(HELP_HEADING_COMMON_COMMANDS))
+        .mut_subcommand("commit", |cmd| cmd.help_heading(HELP_HEADING_COMMON_COMMANDS))
+        // Creating and editing changes
+        .mut_subcommand("new", |cmd| cmd.help_heading(HELP_HEADING_EDITING_CHANGES))
+        .mut_subcommand("describe", |cmd| cmd.help_heading(HELP_HEADING_EDITING_CHANGES))
+        .mut_subcommand("edit", |cmd| cmd.help_heading(HELP_HEADING_EDITING_CHANGES))
+        .mut_subcommand("abandon", |cmd| cmd.help_heading(HELP_HEADING_EDITING_CHANGES))
+        .mut_subcommand("duplicate", |cmd| cmd.help_heading(HELP_HEADING_EDITING_CHANGES))
+        .mut_subcommand("restore", |cmd| cmd.help_heading(HELP_HEADING_EDITING_CHANGES))
+        .mut_subcommand("revert", |cmd| cmd.help_heading(HELP_HEADING_EDITING_CHANGES))
+        .mut_subcommand("metaedit", |cmd| cmd.help_heading(HELP_HEADING_EDITING_CHANGES))
+        // Rewriting history
+        .mut_subcommand("split", |cmd| cmd.help_heading(HELP_HEADING_REWRITING_CHANGES))
+        .mut_subcommand("squash", |cmd| cmd.help_heading(HELP_HEADING_REWRITING_CHANGES))
+        .mut_subcommand("absorb", |cmd| cmd.help_heading(HELP_HEADING_REWRITING_CHANGES))
+        .mut_subcommand("rebase", |cmd| cmd.help_heading(HELP_HEADING_REWRITING_CHANGES))
+        .mut_subcommand("parallelize", |cmd| cmd.help_heading(HELP_HEADING_REWRITING_CHANGES))
+        .mut_subcommand("simplify-parents", |cmd| cmd.help_heading(HELP_HEADING_REWRITING_CHANGES))
+        // Working copy navigation
+        .mut_subcommand("next", |cmd| cmd.help_heading(HELP_HEADING_WORKING_COPY))
+        .mut_subcommand("prev", |cmd| cmd.help_heading(HELP_HEADING_WORKING_COPY))
+        // Conflict resolution and file operations
+        .mut_subcommand("diffedit", |cmd| cmd.help_heading(HELP_HEADING_REWRITING_CHANGES))
+        .mut_subcommand("resolve", |cmd| cmd.help_heading(HELP_HEADING_FILE_OPERATIONS))
+        .mut_subcommand("file", |cmd| cmd.help_heading(HELP_HEADING_FILE_OPERATIONS))
+        .mut_subcommand("sparse", |cmd| cmd.help_heading(HELP_HEADING_FILE_OPERATIONS))
+        // Reviewing changes
+        .mut_subcommand("interdiff", |cmd| cmd.help_heading(HELP_HEADING_REVIEW_COMMANDS))
+        .mut_subcommand("evolog", |cmd| cmd.help_heading(HELP_HEADING_REVIEW_COMMANDS))
+        // Bookmarks and tags - version control references
+        .mut_subcommand("bookmark", |cmd| cmd.help_heading(HELP_HEADING_REFERENCES))
+        .mut_subcommand("tag", |cmd| cmd.help_heading(HELP_HEADING_REFERENCES))
+        // Operation log and history
+        .mut_subcommand("operation", |cmd| cmd.help_heading(HELP_HEADING_OPERATION_LOG))
+        .mut_subcommand("undo", |cmd| cmd.help_heading(HELP_HEADING_OPERATION_LOG))
+        .mut_subcommand("redo", |cmd| cmd.help_heading(HELP_HEADING_OPERATION_LOG))
+        // Workspace management
+        .mut_subcommand("workspace", |cmd| cmd.help_heading(HELP_HEADING_WORKSPACE))
+        .mut_subcommand("root", |cmd| cmd.help_heading(HELP_HEADING_WORKSPACE))
+        // Advanced workflows
+        .mut_subcommand("bisect", |cmd| cmd.help_heading(HELP_HEADING_ADVANCED))
+        .mut_subcommand("fix", |cmd| cmd.help_heading(HELP_HEADING_ADVANCED))
+        .mut_subcommand("run", |cmd| cmd.help_heading(HELP_HEADING_ADVANCED))
+        .mut_subcommand("sign", |cmd| cmd.help_heading(HELP_HEADING_ADVANCED))
+        .mut_subcommand("unsign", |cmd| cmd.help_heading(HELP_HEADING_ADVANCED))
+        // Configuration and utility
+        .mut_subcommand("config", |cmd| cmd.help_heading(HELP_HEADING_CONFIGURATION_HELP))
+        .mut_subcommand("version", |cmd| cmd.help_heading(HELP_HEADING_CONFIGURATION_HELP))
+        .mut_subcommand("debug", |cmd| cmd.help_heading(HELP_HEADING_CONFIGURATION_HELP))
+        .mut_subcommand("util", |cmd| cmd.help_heading(HELP_HEADING_CONFIGURATION_HELP));
+
+    // Git integration (conditional)
+    #[cfg(feature = "git")]
+    {
+        app = app
+            .mut_subcommand("git", |cmd| cmd.help_heading(HELP_HEADING_GIT_INTEGRATION))
+            .mut_subcommand("gerrit", |cmd| cmd.help_heading(HELP_HEADING_GIT_INTEGRATION));
+    }
+
+    // Development tools (conditional)
+    #[cfg(feature = "bench")]
+    {
+        app = app.mut_subcommand("bench", |cmd| cmd.help_heading(HELP_HEADING_DEVELOPMENT));
+    }
+
+    app
 }
 
 #[instrument(skip_all)]
